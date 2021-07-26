@@ -4,12 +4,7 @@ const mongoose = require("mongoose");
 require("dotenv/config");
 const bodyParser = require("body-parser");
 
-const postRoute = require("./routes/post");
-
 app.use(bodyParser.json());
-app.use("/post", postRoute);
-
-// define all routes here..
 
 app.get("/", (req, res) => {
   res.send("Home Page. Hello");

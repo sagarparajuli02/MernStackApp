@@ -1,17 +1,17 @@
-const express = require("express");
+import express from "express";
+import mongoose from "mongoose";
+import postRoutes from "./routes/posts.js";
+
 const app = express();
-const mongoose = require("mongoose");
-require("dotenv/config");
-const bodyParser = require("body-parser");
 
-app.use(bodyParser.json());
+app.use("/posts", postRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Home Page. Hello");
-});
+const DB_CONNECTION =
+  "mongodb+srv://sagarparajuli02:hellboy02@cluster0.q3hks.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
-mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true }, () =>
-  console.log("Connected to DB")
-);
+mongoose
+  .connect(DB_CONNECTION, { useNewUrlParser: true })
+  .then(console.log("connected"))
+  .catch((err) => console.log(err.message));
 
 app.listen(3000);

@@ -3,7 +3,17 @@ import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
 import appLogo from "./images/logo.png";
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
+import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { getPosts } from "./actions/posts";
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
+
   return (
     <Container maxWidth="lg">
       <AppBar position="static" color="inherit">

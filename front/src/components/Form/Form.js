@@ -1,34 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
-import useStyles from "./style";
+import { useDispatch, useSelector } from "react-redux";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
-const Form = () => {
+
+import useStyles from "./style";
+import { createPost, updatePost } from "../../actions/posts";
+
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
     message: "",
     tags: "",
-    selectedFiles: "",
+    selectedFile: "",
   });
-  const classes = useStyles();
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((message) => message._id === currentId) : null
+  );
   const dispatch = useDispatch();
+  const classes = useStyles();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createPost(postData));
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
+
+  const clear = () => {
+    setCurrentId(0);
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+
+      clear();
+    } else {
+      dispatch(createPost(postData));
+
+      clear();
+    }
+  };
+
   return (
     <Paper className={classes.paper}>
       <form
-        className={`${classes.root} ${classes.form}`}
         autoComplete="off"
-        className={classes.root}
         noValidate
+        className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Memories</Typography>
+        <Typography variant="h6">
+          {currentId ? `Editing "${post.title}"` : "Creating a Memory"}
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"
@@ -59,6 +90,7 @@ const Form = () => {
             setPostData({ ...postData, message: e.target.value })
           }
         />
+
         <div className={classes.fileInput}>
           <FileBase
             type="file"
@@ -68,16 +100,29 @@ const Form = () => {
             }
           />
         </div>
-
         <Button
-          fullWidth
           className={classes.buttonSubmit}
           variant="contained"
           color="primary"
           size="large"
           type="submit"
+          fullWidth
         >
-          Share
+          Submit
+        </Button>
+        <div>
+          <div>
+            <br />
+          </div>
+        </div>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={clear}
+          fullWidth
+        >
+          Clear
         </Button>
       </form>
     </Paper>

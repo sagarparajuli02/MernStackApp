@@ -3,11 +3,12 @@ import Post from "./Post/Post";
 import { Grid, CircularProgress } from "@material-ui/core";
 
 import { useSelector } from "react-redux";
-import useStyle from "./style";
+import useStyles from "./style";
 
-function Posts({ setCurrentId }) {
+const Posts = ({ setCurrentId }) => {
   const posts = useSelector((state) => state.posts);
-  const classes = useStyle();
+  const classes = useStyles();
+
   return !posts.length ? (
     <CircularProgress />
   ) : (
@@ -24,6 +25,6 @@ function Posts({ setCurrentId }) {
       ))}
     </Grid>
   );
-}
+};
 
 export default Posts;

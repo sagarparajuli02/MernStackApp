@@ -21,7 +21,7 @@ const Post = ({ post, setCurrentId }) => {
   return (
     <Card className={classes.card}>
       <CardMedia
-        style={{ height: 0, paddingTop: "56%" }}
+        style={{ paddingTop: "56%" }}
         className={classes.media}
         image={
           post.selectedFile ||

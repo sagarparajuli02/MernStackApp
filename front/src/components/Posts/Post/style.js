@@ -6,14 +6,17 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     margin: 10,
   },
-  smMargin: {
-    margin: theme.spacing(1),
-  },
+
   actionDiv: {
     textAlign: "center",
   },
   card: {
-    padding: 20,
     margin: 20,
+  },
+  overlay: {
+    padding: 15,
+  },
+  title: {
+    padding: 15,
   },
 }));
